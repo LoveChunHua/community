@@ -11,9 +11,11 @@
 [okhttp网站](https://square.github.io/okhttp/)\
 [maven仓库](https://mvnrepository.com/artifact/com.alibaba)\
 [H2数据库网站](http://www.h2database.com/html/main.html)\
+[bootstrap CSS布局](https://v3.bootcss.com/css/#grid)
 ## 工具
 [Git](https://git-scm.com/download) \
 [Visual Paradigm](https://www.visual-paradigm.com)
+[Flyway](https://flywaydb.org/getstarted/)
 
 ## 脚本
 ```sql
@@ -28,4 +30,7 @@ create table user
 	constraint user_pk
 		primary key (id)
 );
+```
+```bash
+mvn flyway:migrate
 ```

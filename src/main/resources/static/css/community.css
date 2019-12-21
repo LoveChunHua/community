@@ -1,0 +1,14 @@
+body{
+    background-color: #e5e5e5;
+}
+.main{
+    background-color: white;
+    margin:30px;
+}
+
+.btn-publish{
+    float: right;
+    margin-bottom: 15px;
+}
+
+/*新定义的这些main，btn-publish的class需要在标签中的calss里面引入*/
