@@ -10,6 +10,9 @@
     <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
     <link rel="stylesheet" href="css/bootstrap-theme.min.css">
 
+    <!--引入自己定义的css样式-->
+    <link rel="stylesheet" href="css/community.css">
+
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
     <script src="js/bootstrap.min.js" type="application/javascript"></script>
 <!--    &lt;!&ndash; 最新版本的 Bootstrap 核心 CSS 文件 &ndash;&gt;-->
@@ -57,5 +60,33 @@
         </div>
     </div>
 </nav>
+
+<div class="container-fluid main">
+    <div class="row">
+        <!--在下边的div中测试用到style="background-color: red;height: 300px" style="background-color: green;height: 300px"-->
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+            <h2><span class="glyphicon glyphicon-list" aria-hidden="true"></span>发现</h2>
+            <hr>
+            <!--这个questions就是从前端页面attribute的questions-->
+            <div class="media" th:each="question: ${questions}">
+                <div class="media-left">
+                    <a href="#">
+                        <img class="media-object img-rounded" width="38px" height="38px"
+                        th:src="${question.user.avatarUrl}">
+                    </a>
+                </div>
+                <div class="media-body">
+                    <h4 class="media-heading" th:text="${question.title}"></h4>
+                    <span th:text="${question.description}"></span><br>
+                    <span class="text-desc"><span th:text="${question.commentCount}"></span> 个回复 · <span
+                            th:text="${question.viewCount}"></span>次浏览 · <span th:text="${#dates.format(question.gmtCreate,'yyyy-MM-dd')}"></span></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+            <h3>热门话题</h3>
+        </div>
+    </div>
+</div>
 </body>
 </html>
