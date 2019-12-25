@@ -18,6 +18,7 @@
 [Visual Paradigm](https://www.visual-paradigm.com)\
 [Flyway](https://flywaydb.org/getstarted/)\
 [lombok](https://projectlombok.org/setup/maven)\
+[liveReload](http://livereload.com/extensions/)\
 
 ## 脚本
 ```sql
