@@ -37,3 +37,6 @@ create table user
 ```bash
 mvn flyway:migrate
 ```
+```java
+//遇到页面问题的时候点击页面的检查，再点击左上角的按钮，然后将鼠标悬浮再要检查的元素上面就可以看到元素有什么语句
+```

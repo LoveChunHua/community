@@ -4,7 +4,7 @@ package life.majiang.community.community.controller;
 
 import life.majiang.community.community.mapper.UserMapper;
 import life.majiang.community.community.model.User;
-import life.majiang.community.community.pojo.QuestionPojo;
+import life.majiang.community.community.pojo.PagintationPojo;
 import life.majiang.community.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 @Controller
 public class IndexController {
@@ -42,8 +41,8 @@ public class IndexController {
                 }
             }
 
-        List<QuestionPojo> questionList = questionService.list();
-        model.addAttribute("questions", questionList);
+        PagintationPojo pagination = questionService.list(page,size);
+        model.addAttribute("pagination", pagination);
         return "index";
     }
 }
