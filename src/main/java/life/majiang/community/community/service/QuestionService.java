@@ -97,4 +97,13 @@ public class QuestionService {
 
         return pagintationPojo;
     }
+
+    public QuestionPojo getById(Integer id) {
+        Question question =questionMapper.getById(id);
+        QuestionPojo questionPojo = new QuestionPojo();
+        BeanUtils.copyProperties(question,questionPojo);
+        User user = userMapper.findById(question.getCreator());
+        questionPojo.setUser(user);
+        return questionPojo;
+    }
 }

@@ -26,4 +26,9 @@ body{
     margin-top: 15px;
 }
 
+.community-menu{
+    color: #999;
+    font-size: 12px;
+}
+
 /*新定义的这些main，btn-publish的class需要在标签中的calss里面引入*/
