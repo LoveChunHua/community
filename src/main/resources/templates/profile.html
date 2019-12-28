@@ -1,23 +1,23 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>问答社区</title>
+    <title th:text="${sectionName}"></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <!--从static静态资源中引入样式-->
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
 
     <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
-    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
 
     <!--引入自己定义的css样式-->
-    <link rel="stylesheet" href="css/community.css">
+    <link rel="stylesheet" href="/css/community.css">
 
     <!--引入jquery使下拉框可用-->
-    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="/js/jquery-3.4.1.min.js"></script>
 
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
-    <script src="js/bootstrap.min.js" type="application/javascript"></script>
+    <script src="/js/bootstrap.min.js" type="application/javascript"></script>
     <!--    &lt;!&ndash; 最新版本的 Bootstrap 核心 CSS 文件 &ndash;&gt;-->
     <!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">-->
 
@@ -31,11 +31,11 @@
 <!--将相同的部分抽取到navigation中，然后再引入-->
 <div th:insert="~{navigation :: nav}"></div>
 
-<div class="container-fluid main">
+<div class="container-fluid main profile">
     <div class="row">
         <!--在下边的div中测试用到style="background-color: red;height: 300px" style="background-color: green;height: 300px"-->
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
-            <h2><span class="glyphicon glyphicon-list" aria-hidden="true"></span>发现</h2>
+            <h2><span th:text="${sectionName}"></span></h2>
             <hr>
             <!--这个questions就是从前端页面attribute的questions-->
             <div class="media" th:each="question: ${pagination.questions}">
@@ -47,7 +47,6 @@
                 </div>
                 <div class="media-body">
                     <h4 class="media-heading" th:text="${question.title}"></h4>
-                    <span th:text="${question.description}"></span><br>
                     <span class="text-desc"><span th:text="${question.commentCount}"></span> 个回复 · <span
                             th:text="${question.viewCount}"></span>次浏览 · <span
                             th:text="${#dates.format(question.gmtCreate,'yyyy-MM-dd HH:mm')}"></span></span>
@@ -57,36 +56,46 @@
             <nav aria-label="Page navigation">
                 <ul class="pagination">
                     <li th:if="${pagination.showFirstPage}">
-                        <a href="/?page=1" aria-label="Previous">
+                        <a th:href="@{'/profile/'+${section}(page=${1})}"
+                           aria-label="Previous">
                             <span aria-hidden="true">&lt;&lt;</span>
                         </a>
                     </li>
                     <li th:if="${pagination.showPrevious}">
-                        <a th:href="@{/(page=${pagination.page - 1})}" aria-label="Previous">
+                        <a th:href="@{'/profile/'+${section}(page=${pagination.page - 1})}"
+                           aria-label="Previous">
                             <span aria-hidden="true">&lt;</span>
                         </a>
                     </li>
                     <li th:each="page: ${pagination.pages}" th:class="${pagination.page==page}?'active':''">
                         <a
-                                th:href="@{/(page=${page})}" th:text="${page}">
+                                th:href="@{'/profile/'+${section}(page=${page})}" th:text="${page}">
 
                         </a>
                     </li>
                     <li th:if="${pagination.showNext}">
-                        <a th:href="@{/(page=${pagination.page+1})}" aria-label="Next">
+                        <a th:href="@{'/profile/'+${section}(page=${pagination.page + 1})}" aria-label="Next">
                             <span aria-hidden="true">&gt;</span>
                         </a>
                     </li>
                     <li th:if="${pagination.showEndPage}">
-                        <a th:href="@{/(page=${pagination.totalPage})}" aria-label="Next">
+                        <a th:href="@{'/profile/'+${section}(page=${pagination.totalPage})}" aria-label="Next">
                             <span aria-hidden="true">&gt;&gt;</span>
                         </a>
                     </li>
                 </ul>
             </nav>
+
+
         </div>
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
-            <h3>热门话题</h3>
+            <div class="list-group section">
+                <a href="/profile/questions" class="list-group-item " th:classappend="${section=='questions'}?'active':''">我的问题</a>
+                <a href="/profile/replies" class="list-group-item " th:classappend="${section=='replies'}?'active':''">
+                    最新回复
+                    <span class="badge">14</span>
+                </a>
+            </div>
         </div>
     </div>
 </div>

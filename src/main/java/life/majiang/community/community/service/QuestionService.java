@@ -29,18 +29,61 @@ public class QuestionService {
 
     public PagintationPojo list(Integer page, Integer size) {
         PagintationPojo pagintationPojo = new PagintationPojo();
+        Integer totalPage;
         Integer totalCount = questionMapper.count();
-        pagintationPojo.setPagination(totalCount, page, size);//将传入的记录总数，页面，每个页面展示的大小传入，调用该方法就能直接展示需要的页面
+
+        if (totalCount % size == 0) {
+            totalPage = totalCount / size;
+        } else {
+            totalPage = totalCount / size + 1;
+        }
         //容错机制
         if (page < 1) {
             page = 1;
         }
-        if (page > pagintationPojo.getTotalPage()) {
-            page = pagintationPojo.getTotalPage();
+        if (page > totalPage) {
+            page = totalPage;
         }
 
+        pagintationPojo.setPagination(totalPage, page);
+        
         Integer offset = size * (page - 1);
         List<Question> questions = questionMapper.list(offset, size);
+        List<QuestionPojo> questionPojoList = new ArrayList<>();
+
+        for (Question question : questions) {
+            User user = userMapper.findById(question.getCreator());
+            QuestionPojo questionPojo = new QuestionPojo();
+            BeanUtils.copyProperties(question, questionPojo);//将question复制给questionPojo
+            questionPojo.setUser(user);
+            questionPojoList.add(questionPojo);
+        }
+        pagintationPojo.setQuestions(questionPojoList);
+
+        return pagintationPojo;
+    }
+
+    public PagintationPojo list(Integer userId, Integer page, Integer size) {
+        PagintationPojo pagintationPojo = new PagintationPojo();
+        Integer totalPage;
+        Integer totalCount = questionMapper.countByUserId(userId);
+
+        if (totalCount % size == 0) {
+            totalPage = totalCount / size;
+        } else {
+            totalPage = totalCount / size + 1;
+        }
+        //容错机制
+        if (page < 1) {
+            page = 1;
+        }
+        if (page > totalPage) {
+            page = totalPage;
+        }
+        pagintationPojo.setPagination(totalPage, page);//将传入的记录总数，页面，每个页面展示的大小传入，调用该方法就能直接展示需要的页面
+
+        Integer offset = size * (page - 1);
+        List<Question> questions = questionMapper.listByUserId(userId, offset, size);
         List<QuestionPojo> questionPojoList = new ArrayList<>();
 
         for (Question question : questions) {

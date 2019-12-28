@@ -22,4 +22,8 @@ body{
     color: #999;
 }
 
+.profile .section{
+    margin-top: 15px;
+}
+
 /*新定义的这些main，btn-publish的class需要在标签中的calss里面引入*/
