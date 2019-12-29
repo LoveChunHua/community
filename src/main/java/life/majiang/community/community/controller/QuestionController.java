@@ -22,6 +22,7 @@ public class QuestionController {
     public String question(@PathVariable(name = "id") Integer id,
                            Model model){
         QuestionPojo questionPojo =questionService.getById(id);
+        questionService.incView(id);
         model.addAttribute("question",questionPojo);
         return "question";
     }
