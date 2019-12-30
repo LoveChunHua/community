@@ -2,6 +2,7 @@ package life.majiang.community.community.service;
 
 import life.majiang.community.community.exception.CustomizeErrorCode;
 import life.majiang.community.community.exception.CustomizeException;
+import life.majiang.community.community.mapper.QuestionExtMapper;
 import life.majiang.community.community.mapper.QuestionMapper;
 import life.majiang.community.community.mapper.UserMapper;
 import life.majiang.community.community.model.Question;
@@ -30,6 +31,9 @@ public class QuestionService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private QuestionExtMapper questionExtMapper;
 
     public PagintationPojo list(Integer page, Integer size) {
         PagintationPojo pagintationPojo = new PagintationPojo();
@@ -124,10 +128,10 @@ public class QuestionService {
             //创建
             question.setGmtCreate(System.currentTimeMillis());
             question.setGmtModified(question.getGmtModified());
-            question.setViewCount(0);
-            question.setCommentCount(0);
-            question.setLikeCount(0);
-            questionMapper.insert(question);
+//            question.setViewCount(0);
+//            question.setCommentCount(0);
+//            question.setLikeCount(0);
+            questionMapper.insertSelective(question);
         }else{
             //更新
             Question updateQuestion = new Question();
@@ -146,12 +150,9 @@ public class QuestionService {
     }
 
     public void incView(Integer id) {
-        Question question =questionMapper.selectByPrimaryKey(id);
-        Question updateQuestion = new Question();
-        updateQuestion.setViewCount(question.getViewCount() + 1);
-        QuestionExample questionExample = new QuestionExample();
-        questionExample.createCriteria()
-                .andIdEqualTo(id);
-        questionMapper.updateByExampleSelective(updateQuestion, questionExample);
+        Question question = new Question();
+        question.setId(id);
+        question.setViewCount(1);
+        questionExtMapper.incView(question);
     }
 }

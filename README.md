@@ -38,6 +38,12 @@ create table user
 mvn flyway:migrate
 mvn -Dmybatis.generator.overwrite=true mybatis-generator:generate
 ```
-```java
-//遇到页面问题的时候点击页面的检查，再点击左上角的按钮，然后将鼠标悬浮再要检查的元素上面就可以看到元素有什么语句
+```
+遇到页面问题的时候点击页面的检查，再点击左上角的按钮，然后将鼠标悬浮再要检查的元素上面就可以看到元素有什么语句
+遇到的问题：
+    用了持久化工具如mybatis这样的；
+    然后按照实体来进行插入？
+    1.mysql字段默认的含义：在插入时不指定该字段的值；
+    2.以mybatis举例，如果是插入实体，那么为空的字段就会插入空；
+    3.如果不想mybatis等持久化工具插入空，可以尝试insertSelective方式进行，这样为空字段会被剔除
 ```
