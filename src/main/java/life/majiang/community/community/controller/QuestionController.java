@@ -19,7 +19,7 @@ public class QuestionController {
     private QuestionService questionService;
 
     @GetMapping("/question/{id}")
-    public String question(@PathVariable(name = "id") Integer id,
+    public String question(@PathVariable(name = "id") Long id,
                            Model model){
         QuestionPojo questionPojo =questionService.getById(id);
         questionService.incView(id);

@@ -6,4 +6,5 @@ package life.majiang.community.community.exception;
  **/
 public interface ICustmizeErrorCode {
     String getMessage();
+    Integer getCode();
 }

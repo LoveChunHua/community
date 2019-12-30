@@ -1,7 +1,7 @@
 create table comment
 (
 	id BIGINT auto_increment,
-	parent_id int not null,
+	parent_id LONG not null,
 	type int not null,
 	commentator int not null,
 	gmt_create BIGINT not null,

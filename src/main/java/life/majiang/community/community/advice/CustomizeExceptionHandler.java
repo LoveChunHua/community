@@ -1,6 +1,9 @@
 package life.majiang.community.community.advice;
 
+import com.alibaba.fastjson.JSON;
+import life.majiang.community.community.exception.CustomizeErrorCode;
 import life.majiang.community.community.exception.CustomizeException;
+import life.majiang.community.community.pojo.ResultPojo;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -10,6 +13,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  * Created by sunkai
@@ -19,21 +25,38 @@ import javax.servlet.http.HttpServletRequest;
 public class CustomizeExceptionHandler {
     @ExceptionHandler(Exception.class)
     @ResponseBody
-    ModelAndView handle(Throwable e , Model model) {
-        if(e instanceof CustomizeException){
-            model.addAttribute("message",e.getMessage());
+    Object handle(Throwable e,
+                  Model model,
+                  HttpServletRequest request,
+                  HttpServletResponse response) {
+        String contentType = request.getContentType();//自带的返回内容类型的方法
+        if("application/json".equals(contentType)){
+            //返回JSON
+            ResultPojo resultPojo;
+            if(e instanceof CustomizeException){
+                resultPojo = ResultPojo.errorOf((CustomizeException)e);
+            }else{
+                resultPojo = ResultPojo.errorOf(CustomizeErrorCode.SYS_ERROR);
+            }
+            try {
+                response.setContentType("application/json");
+                response.setStatus(200);
+                response.setCharacterEncoding("utf-8");
+                PrintWriter writer = response.getWriter();
+                writer.write(JSON.toJSONString(resultPojo));
+                writer.close();
+            } catch (IOException ioe) {
+
+            }
+            return null;
         }else{
-            model.addAttribute("message","你妈妈喊你回家吃饭，要不你吃完饭再来");
+            //错误页面跳转
+            if(e instanceof CustomizeException){
+                model.addAttribute("message",e.getMessage());
+            }else{
+                model.addAttribute("message",CustomizeErrorCode.SYS_ERROR.getMessage());
+            }
+            return new ModelAndView("error");
         }
-        return new ModelAndView("error");
     }
-
-    private HttpStatus getStatus(HttpServletRequest request) {
-        Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
-        if (statusCode == null) {
-            return HttpStatus.INTERNAL_SERVER_ERROR;
-        }
-        return HttpStatus.valueOf(statusCode);
-    }
-
 }

@@ -1,5 +1,6 @@
 package life.majiang.community.community.service;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import life.majiang.community.community.exception.CustomizeErrorCode;
 import life.majiang.community.community.exception.CustomizeException;
 import life.majiang.community.community.mapper.QuestionExtMapper;
@@ -71,7 +72,7 @@ public class QuestionService {
         return pagintationPojo;
     }
 
-    public PagintationPojo list(Integer userId, Integer page, Integer size) {
+    public PagintationPojo list(Long userId, Integer page, Integer size) {
         PagintationPojo pagintationPojo = new PagintationPojo();
         Integer totalPage;
         QuestionExample questionExample = new QuestionExample();
@@ -111,7 +112,7 @@ public class QuestionService {
         return pagintationPojo;
     }
 
-    public QuestionPojo getById(Integer id) {
+    public QuestionPojo getById(Long id) {
         Question question =questionMapper.selectByPrimaryKey(id);
         if(question == null){
             throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
@@ -128,6 +129,7 @@ public class QuestionService {
             //创建
             question.setGmtCreate(System.currentTimeMillis());
             question.setGmtModified(question.getGmtModified());
+            question.setId(question.getId());
 //            question.setViewCount(0);
 //            question.setCommentCount(0);
 //            question.setLikeCount(0);
@@ -149,7 +151,7 @@ public class QuestionService {
         }
     }
 
-    public void incView(Integer id) {
+    public void incView(Long id) {
         Question question = new Question();
         question.setId(id);
         question.setViewCount(1);
