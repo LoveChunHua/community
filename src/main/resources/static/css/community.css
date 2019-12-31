@@ -50,6 +50,18 @@ body{
     margin-bottom: 15px;
     border-bottom: 1px solid #eee;
 }
+
+.sub-comments{
+    border-radius: 5px;
+    margin-top: 10px;
+    border: 1px solid #eee;
+    padding-top: 15px;
+    margin-bottom: 15px;
+}
+
+.sub-comments .btn{
+    margin: 10px 0;
+}
 .comment-sp{
     margin-top: 0;
 }
@@ -65,6 +77,10 @@ body{
     margin-right: 6px;
     font-size: 15px;
     cursor: pointer;
+}
+
+.menu .active{
+    color: #499ef3;
 }
 .menu .icon:hover{
     color: #499ef3;

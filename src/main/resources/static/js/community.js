@@ -1,3 +1,6 @@
+/*
+* 提交回复
+*/
 function post() {
     let questionId = $("#question_id").val();
     let content = $("#comment_content").val();
@@ -33,4 +36,28 @@ function post() {
         },
         dataType: "json"
     });
+}
+
+/*
+* 二级评论
+*/
+function collapseComments(e)
+{
+    let id = e.getAttribute("data-id");
+    let comments = $("#comment-"+id);
+    //获取一下二级评论的展开状态
+    let collapse = e.getAttribute("data-collapse");
+    if(collapse){
+        //折叠二级评论
+        comments.removeClass("in");
+        e.removeAttribute("data-collapse");
+        e.classList.remove("active");
+    }else{
+        //展开二级评论
+        comments.addClass("in");//拼接html的class   collapse为collapse in
+        //标记二级评论展开状态
+        e.setAttribute("data-collapse","in");
+        e.classList.add("active");
+    }
+
 }
