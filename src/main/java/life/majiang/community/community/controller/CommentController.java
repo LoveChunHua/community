@@ -6,6 +6,7 @@ import life.majiang.community.community.model.User;
 import life.majiang.community.community.pojo.CommentCreatePojo;
 import life.majiang.community.community.pojo.ResultPojo;
 import life.majiang.community.community.service.CommentService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,7 +36,9 @@ public class CommentController {
             return ResultPojo.errorOf(CustomizeErrorCode.NO_LOGIN);
         }
 
-
+        if(commentCreatePojo ==null || StringUtils.isBlank(commentCreatePojo.getContent())){
+            return ResultPojo.errorOf(CustomizeErrorCode.COMMENT_IS_EMPTY);
+        }
         Comment comment = new Comment();
         comment.setParentId(commentCreatePojo.getParentId());
         comment.setContent(commentCreatePojo.getContent());

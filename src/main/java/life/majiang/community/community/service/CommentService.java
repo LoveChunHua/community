@@ -64,11 +64,12 @@ public class CommentService {
         }
     }
 
-    public List<CommentPojo> listByQuestionId(Long id) {
+    public List<CommentPojo>  listByQuestionId(Long id) {
         CommentExample commentExample = new CommentExample();
         commentExample.createCriteria()
                 .andParentIdEqualTo(id)
                 .andTypeEqualTo(CommentTypeEnum.QUESTION.getType());
+        commentExample.setOrderByClause("gmt_create desc");//按照创建时间的倒序创建评论
         List<Comment> comments = commentMapper.selectByExample(commentExample);
 
         if(comments.size() ==0){
