@@ -1,6 +1,5 @@
 package life.majiang.community.community.service;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import life.majiang.community.community.exception.CustomizeErrorCode;
 import life.majiang.community.community.exception.CustomizeException;
 import life.majiang.community.community.mapper.QuestionExtMapper;

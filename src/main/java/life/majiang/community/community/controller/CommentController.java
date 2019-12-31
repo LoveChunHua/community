@@ -1,10 +1,9 @@
 package life.majiang.community.community.controller;
 
 import life.majiang.community.community.exception.CustomizeErrorCode;
-import life.majiang.community.community.mapper.CommentMapper;
 import life.majiang.community.community.model.Comment;
 import life.majiang.community.community.model.User;
-import life.majiang.community.community.pojo.CommentPojo;
+import life.majiang.community.community.pojo.CommentCreatePojo;
 import life.majiang.community.community.pojo.ResultPojo;
 import life.majiang.community.community.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +27,7 @@ public class CommentController {
 
     @ResponseBody
     @RequestMapping(value = "/comment",method = RequestMethod.POST)
-    public Object post(@RequestBody CommentPojo commentPojo,
+    public Object post(@RequestBody CommentCreatePojo commentCreatePojo,
                        HttpServletRequest request){//这个注解直接用JSON的格式将携带的值复制给commentPojo
 
         User user = (User)request.getSession().getAttribute("user");
@@ -38,9 +37,9 @@ public class CommentController {
 
 
         Comment comment = new Comment();
-        comment.setParentId(commentPojo.getParentId());
-        comment.setContent(commentPojo.getContent());
-        comment.setType(commentPojo.getType());
+        comment.setParentId(commentCreatePojo.getParentId());
+        comment.setContent(commentCreatePojo.getContent());
+        comment.setType(commentCreatePojo.getType());
         comment.setGmtCreate(System.currentTimeMillis());
         comment.setGmtModified(System.currentTimeMillis());
         comment.setCommentator(user.getId());

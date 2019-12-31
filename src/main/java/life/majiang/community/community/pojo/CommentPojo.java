@@ -1,14 +1,21 @@
 package life.majiang.community.community.pojo;
 
+import life.majiang.community.community.model.User;
 import lombok.Data;
 
 /**
  * Created by sunkai
- * Date 2019/12/30 17:14
+ * Date 2019/12/31 15:13
  **/
 @Data
 public class CommentPojo {
+    private Long id;
     private Long parentId;
-    private String content;
     private Integer type;
+    private Long commentator;
+    private Long gmtCreate;
+    private Long gmtModified;
+    private Long likeCount;
+    private String content;
+    private User user;
 }

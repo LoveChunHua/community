@@ -1,12 +1,16 @@
 package life.majiang.community.community.controller;
 
+import life.majiang.community.community.pojo.CommentPojo;
 import life.majiang.community.community.pojo.QuestionPojo;
+import life.majiang.community.community.service.CommentService;
 import life.majiang.community.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+
+import java.util.List;
 
 /**
  * Created by sunkai
@@ -18,12 +22,16 @@ public class QuestionController {
     @Autowired
     private QuestionService questionService;
 
+    @Autowired
+    private CommentService commentService;
+
     @GetMapping("/question/{id}")
-    public String question(@PathVariable(name = "id") Long id,
-                           Model model){
-        QuestionPojo questionPojo =questionService.getById(id);
+    public String question(@PathVariable(name = "id") Long id, Model model) {
+        QuestionPojo questionPojo = questionService.getById(id);
+        List<CommentPojo> comments = commentService.listByQuestionId(id);
         questionService.incView(id);
-        model.addAttribute("question",questionPojo);
+        model.addAttribute("question", questionPojo);
+        model.addAttribute("comments", comments);
         return "question";
     }
 }
