@@ -1,5 +1,6 @@
 package life.majiang.community.community.controller;
 
+import life.majiang.community.community.enums.CommentTypeEnum;
 import life.majiang.community.community.pojo.CommentPojo;
 import life.majiang.community.community.pojo.QuestionPojo;
 import life.majiang.community.community.service.CommentService;
@@ -28,10 +29,12 @@ public class QuestionController {
     @GetMapping("/question/{id}")
     public String question(@PathVariable(name = "id") Long id, Model model) {
         QuestionPojo questionPojo = questionService.getById(id);
-        List<CommentPojo> comments = commentService.listByQuestionId(id);
+        List<QuestionPojo> relatedQuestions = questionService.selectRelated(questionPojo);
+        List<CommentPojo> comments = commentService.listByTargetId(id, CommentTypeEnum.QUESTION);
         questionService.incView(id);
         model.addAttribute("question", questionPojo);
         model.addAttribute("comments", comments);
+        model.addAttribute("relatedQuestions", relatedQuestions);
         return "question";
     }
 }

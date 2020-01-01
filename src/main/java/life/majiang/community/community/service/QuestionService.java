@@ -10,13 +10,16 @@ import life.majiang.community.community.model.QuestionExample;
 import life.majiang.community.community.model.User;
 import life.majiang.community.community.pojo.PagintationPojo;
 import life.majiang.community.community.pojo.QuestionPojo;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by sunkai
@@ -56,7 +59,9 @@ public class QuestionService {
         pagintationPojo.setPagination(totalPage, page);
         
         Integer offset = size * (page - 1);
-        List<Question> questions = questionMapper.selectByExampleWithRowbounds(new QuestionExample(), new RowBounds(offset, size));
+        QuestionExample questionExample = new QuestionExample();
+        questionExample.setOrderByClause("gmt_create desc");
+        List<Question> questions = questionMapper.selectByExampleWithRowbounds(questionExample, new RowBounds(offset, size));
         List<QuestionPojo> questionPojoList = new ArrayList<>();
 
         for (Question question : questions) {
@@ -155,5 +160,24 @@ public class QuestionService {
         question.setId(id);
         question.setViewCount(1);
         questionExtMapper.incView(question);
+    }
+
+    public List<QuestionPojo> selectRelated(QuestionPojo questionPojo) {
+        if(StringUtils.isBlank(questionPojo.getTag())){
+            return new ArrayList<>();
+        }
+        String[] tags = StringUtils.split(questionPojo.getTag(), ",");
+        String regexpTag = Arrays.stream(tags).collect(Collectors.joining("|"));
+        Question question = new Question();
+        question.setId(questionPojo.getId());
+        question.setTag(regexpTag);
+        List<Question> questions = questionExtMapper.selectRelated(question);
+
+        List<QuestionPojo> questionPojoS= questions.stream().map(q -> {
+            QuestionPojo questionpojo = new QuestionPojo();
+            BeanUtils.copyProperties(q,questionpojo);
+            return questionpojo;
+        }).collect(Collectors.toList());
+        return questionPojoS;
     }
 }

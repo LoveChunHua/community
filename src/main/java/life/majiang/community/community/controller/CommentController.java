@@ -1,20 +1,20 @@
 package life.majiang.community.community.controller;
 
+import life.majiang.community.community.enums.CommentTypeEnum;
 import life.majiang.community.community.exception.CustomizeErrorCode;
 import life.majiang.community.community.model.Comment;
 import life.majiang.community.community.model.User;
 import life.majiang.community.community.pojo.CommentCreatePojo;
+import life.majiang.community.community.pojo.CommentPojo;
 import life.majiang.community.community.pojo.ResultPojo;
 import life.majiang.community.community.service.CommentService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * Created by sunkai
@@ -51,4 +51,10 @@ public class CommentController {
         return ResultPojo.okOf();
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/comment/{id}",method = RequestMethod.GET)
+    public ResultPojo<List<CommentPojo>> comments(@PathVariable(name = "id") Long id){
+        List<CommentPojo> commentPojos = commentService.listByTargetId(id, CommentTypeEnum.COMMENT);
+        return ResultPojo.okOf(commentPojos);
+    }
 }

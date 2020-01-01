@@ -9,9 +9,10 @@ import lombok.Data;
  * Date 2019/12/30 17:50
  **/
 @Data
-public class ResultPojo {
+public class ResultPojo<T> {
     private Integer code;
     private String message;
+    private T data;
 
     public static ResultPojo errorOf(Integer code,String message){
         ResultPojo resultPojo = new ResultPojo();
@@ -35,5 +36,11 @@ public class ResultPojo {
         return resultPojo;
     }
 
-
+    public static <T> ResultPojo okOf(T t){
+        ResultPojo resultPojo = new ResultPojo();
+        resultPojo.setCode(200);
+        resultPojo.setMessage("请求成功");
+        resultPojo.setData(t);
+        return resultPojo;
+    }
 }

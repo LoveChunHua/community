@@ -9,6 +9,7 @@ import lombok.Data;
  **/
 @Data
 public class CommentPojo {
+    private Integer commentCount;
     private Long id;
     private Long parentId;
     private Integer type;
