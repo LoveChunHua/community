@@ -10,6 +10,7 @@ import life.majiang.community.community.model.QuestionExample;
 import life.majiang.community.community.model.User;
 import life.majiang.community.community.pojo.PagintationPojo;
 import life.majiang.community.community.pojo.QuestionPojo;
+import life.majiang.community.community.pojo.QuestionQueryPojo;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.BeanUtils;
@@ -38,10 +39,17 @@ public class QuestionService {
     @Autowired
     private QuestionExtMapper questionExtMapper;
 
-    public PagintationPojo list(Integer page, Integer size) {
+    public PagintationPojo list(String search,Integer page, Integer size) {
+        if(StringUtils.isNotBlank(search)){
+            String[] tags = StringUtils.split(search, " ");
+            search = Arrays.stream(tags).collect(Collectors.joining("|"));
+        }
+
         PagintationPojo pagintationPojo = new PagintationPojo();
         Integer totalPage;
-        Integer totalCount = (int)questionMapper.countByExample(new QuestionExample());
+        QuestionQueryPojo questionQueryPojo = new QuestionQueryPojo();
+        questionQueryPojo.setSearch(search);
+        Integer totalCount = questionExtMapper.countBySearch(questionQueryPojo);
 
         if (totalCount % size == 0) {
             totalPage = totalCount / size;
@@ -61,7 +69,9 @@ public class QuestionService {
         Integer offset = size * (page - 1);
         QuestionExample questionExample = new QuestionExample();
         questionExample.setOrderByClause("gmt_create desc");
-        List<Question> questions = questionMapper.selectByExampleWithRowbounds(questionExample, new RowBounds(offset, size));
+        questionQueryPojo.setSize(size);
+        questionQueryPojo.setPage(offset);
+        List<Question> questions = questionExtMapper.selectBySearch(questionQueryPojo);
         List<QuestionPojo> questionPojoList = new ArrayList<>();
 
         for (Question question : questions) {

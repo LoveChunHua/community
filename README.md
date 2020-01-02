@@ -12,6 +12,9 @@
 [maven仓库](https://mvnrepository.com/artifact/com.alibaba)\
 [H2数据库网站](http://www.h2database.com/html/main.html)\
 [bootstrap CSS布局](https://v3.bootcss.com/css/#grid)\
+[markdownEdit](https://pandao.github.io/editor.md/)\
+[云服务](https://github.com/ucloud/ufile-sdk-java)\
+[图标](https://www.iconfont.cn/)\
 
 ## 工具
 [Git](https://git-scm.com/download) \
