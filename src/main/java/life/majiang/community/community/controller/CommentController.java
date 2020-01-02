@@ -26,6 +26,7 @@ public class CommentController {
     @Autowired
     private CommentService commentService;
 
+    //对问题的评论
     @ResponseBody
     @RequestMapping(value = "/comment",method = RequestMethod.POST)
     public Object post(@RequestBody CommentCreatePojo commentCreatePojo,
@@ -47,10 +48,11 @@ public class CommentController {
         comment.setGmtModified(System.currentTimeMillis());
         comment.setCommentator(user.getId());
         comment.setLikeCount(0L);
-        commentService.insert(comment);
+        commentService.insert(comment,user);
         return ResultPojo.okOf();
     }
 
+    //展示二级评论
     @ResponseBody
     @RequestMapping(value = "/comment/{id}",method = RequestMethod.GET)
     public ResultPojo<List<CommentPojo>> comments(@PathVariable(name = "id") Long id){

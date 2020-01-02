@@ -11,7 +11,10 @@ public enum CustomizeErrorCode implements ICustmizeErrorCode{
     SYS_ERROR(2004,"你妈妈喊你回家吃饭，要不你吃完饭再来"),
     TYPE_PARAM_WRONG(2005,"评论类型错误或者为空"),
     COMMENT_NOT_FOUND(2006,"你回复的评论不存在"),
-    COMMENT_IS_EMPTY(2007,"你回复的评论KONG");
+    COMMENT_IS_EMPTY(2007,"你回复的评论KONG"),
+    READ_NOTIFICATION_FAIL(2008,"兄弟你读别人的信息呢"),
+    NOTIFICATION_NOT_FOUND(2001,"你找的通知不存在");
+
 
     private String message;
     private Integer code;

@@ -71,7 +71,7 @@ public class QuestionService {
             questionPojo.setUser(user);
             questionPojoList.add(questionPojo);
         }
-        pagintationPojo.setQuestions(questionPojoList);
+        pagintationPojo.setData(questionPojoList);
 
         return pagintationPojo;
     }
@@ -111,7 +111,7 @@ public class QuestionService {
             questionPojo.setUser(user);
             questionPojoList.add(questionPojo);
         }
-        pagintationPojo.setQuestions(questionPojoList);
+        pagintationPojo.setData(questionPojoList);
 
         return pagintationPojo;
     }
